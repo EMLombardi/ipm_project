@@ -23,10 +23,31 @@ for(i in 1:length(t1)){
 }
 
 size.surv <- as.data.frame(cbind(t0, surv)) # append size vector and surv vector
+
 # plot surviorship v. size
 surv.plot <- ggplot(size.surv, aes(t0, surv)) + 
     geom_point(position=position_jitter(w=0.03, h=0.03), alpha=0.2, size=5)
 surv.plot
+
+# bin size data into classes
+size <- sort(dat$sqrtszt)
+bin.size <- split(size, ceiling(seq_along(size)/136))
+med.size <- lapply(bin.size, median)
+
 # logistic regression model of surv as fx of size
 mod1 <- glm(surv~t0, family=binomial, data=size.surv)
+mod1.plot <- surv.plot + geom_smooth(method="glm", family="binomial")
+
+# function takes median values from each size class and uses it as the ind. var
+# in the equation from the above fitted logisic regression model.  plogis is
+# necessary to transform output from log-odds to probabilites
+mod1.fun <- function(x){
+    pr.surv <- plogis(mod1$coef[1]+mod1$coef[2]*x)
+    return(pr.surv)
+}
+# apply above function to median values; returns a list of probs for each class
+surv.est <- lapply(med.size, mod1.fun)
+
+
+
 
