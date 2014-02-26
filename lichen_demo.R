@@ -14,6 +14,7 @@ n.bin <- 5  # specify number of classes
 
 # initialize storage
 n <- rep(NA, n.bin)                         # count of indvs per bin
+median <- rep(NA, n.bin)                    # median size per bin for F
 surv <- rep(NA, n.bin)
 grow <- matrix(NA, n.bin, n.bin)            # store growth probabilites for each size class
 
@@ -31,7 +32,8 @@ for(i in 1:(n.bin-1)){
 for(i in 1:(length(vec.bin)-1)){
     bounds <- c(vec.bin[i], vec.bin[i+1])                           # set limits for subset according to bin breaks
     subset <- size[size[,1] > bounds[1] & size[,1] < bounds[2],]    # subset data according to bounds
-    n[i] <- length(subset[,1])                                      # store number of inviduals in this bin for future ref
+    n[i] <- length(subset[,2])                                      # store number of inviduals in this bin for future ref
+    median[i] <- median(subset[,1])
     surv[i] <- sum(subset[,2] != 0) / length(subset[,2])            # calculate survivorship for this class, note TRUE = 1, which is a possible return of the logical expression !=
     histo <- hist(subset$t1, breaks = vec.bin, plot = FALSE)        # store hist as object, to access counts per bin
     grow[,i] <- histo$counts/length(subset[,1])                     # $counts returns the number of individuals of a certain size class                                                                   # at t1 from the bin set at t0, that is growth or shrinkage or neither   
@@ -41,11 +43,19 @@ n
 surv
 grow
 
-M <- matrix(NA, n.bin, n.bin)
+M <- matrix(NA, n.bin, n.bin)   # initiate projection matrix
+r <- 0.185                      # MLE for r from Shriver (2012)
 
 for(i in 1:length(surv)){
-    M[,i] <- surv[i] * grow[,i]  
+    M[,i] <- surv[i] * grow[,i]
+    M[1,i] <- r * median[i] * surv[i] # how does growth fit into M[1,i]?
 }
+
+M
+
+# each reproductive matrix element a[1,i] = si*ci*rc, with ci the circumference of the mid-class size for 
+# class i, si the survival rate of class i, and rc is the number of recruits produced per cm length of 
+# thallus circumference (estimated as a circle from thallus area)
 
 
 
