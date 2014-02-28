@@ -20,10 +20,11 @@ grow <- matrix(NA, n.bin, n.bin)            # store growth probabilites for each
 
 vec.bin <- rep(NA, n.bin)                   # init. container for bin breaks
 vec.bin[1] <- 0 
+vec.bin[2] <- sqrt(0.03)                    # lines 22 and 23 establish bounds for recruit class
 vec.bin[n.bin+1] <- max(size[,1])           # the last bin needs an upper limit specified
 
 # fill vector with evenly spaced bin breaks
-for(i in 1:(n.bin-1)){
+for(i in 2:(n.bin-1)){
     bin.width <- (max(size[,1]) - min(size[,1])) / n.bin    # find bin width
     vec.bin[i+1] <- vec.bin[i] + bin.width                  # assign values to bin break vector
 }
@@ -62,8 +63,8 @@ M
 
 
 
-# ###################
-# #### An attempt to parameterize the model by logistic regression, and class based vital rates
+###################
+#### An attempt to parameterize the model by logistic regression, and class based vital rates
 # library(ggplot2)
 # 
 # dat <- read.csv("lichen_demo.csv")
@@ -110,8 +111,8 @@ M
 # }
 # # apply above function to median values; returns a list of probs for each class
 # vital.surv <- lapply(med.size, mod1.fun)
-# 
-# ################
-# ################
+
+################
+################
 
 
