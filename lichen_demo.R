@@ -10,6 +10,17 @@ dat.size <- as.data.frame(dat[, 5:6])
 colnames(dat.size) <- c("sqrtszt"="t0", "sqrtszt1"="t1") # rename column header
 size <- arrange(dat.size, t0) # arrange initial column in ascending order
 
+##Lizzie's possible alternative...bit of a waste of time, perhaps...but just thought I would pitch it in and see what happens
+#dat=sort(data$sqrtszt1)
+#seq(1,8, by=.5)
+#n.bin=cut(data$sqrtszt1, breaks=seq(1,8, by=.5))
+#table(n.bin)
+#plot(n.bin)
+#bin.means=tapply(dat, n.bin, mean)
+#plot(bin.means)
+##I'm actually not really sure this is right. I'll look at it more later, and will continue working through this code in general.
+#I think it is ready to be sent to Dan, though...
+
 n.bin <- 5  # specify number of classes
 
 # initialize storage
