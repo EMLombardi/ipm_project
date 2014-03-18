@@ -1,0 +1,17 @@
+bin1=subset(t0, t0<.4)#defines bin1 (recruit class)
+t0<-subset(t0, t0>.4) #re-defines t0 to exclude recruit class
+
+
+brks=hist(c(t0))#This uses the hist function to create the bins. Simple. Problem=equal sized bins.
+vec.bin=as.vector(brks$breaks)
+
+#problem now: vector of bin breaks does not include recruit class. 
+
+
+##Below is an alternative. 
+#This code defines breaks with the specific recruit class, then by quantiles and the median. 
+brks=c(0, .3, 1.288, 2.023, 2.8760, 7.7690 )
+bin.widths=cut2(t0, cuts=brks, g=6, levels.mean=TRUE, digits=3, onlycuts=TRUE)
+table(bin.widths)
+windows()
+barplot(bin.widths) #Just checking
