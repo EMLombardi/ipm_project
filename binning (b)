@@ -1,0 +1,9 @@
+bin1=subset(t0, t0<.4)#defines bin1 (recruit class)
+recruit.med<-median(bin1)
+t0<-subset(t0, t0>.4) #re-defines t0 to exclude recruit class
+windows()
+brks=hist(c(t0))#This uses the hist function to create the bins. Simple. There are 17 bins here. Problem=equal sized bins.
+bpts=brks$breaks
+vec.bin=cut2(t0, bpts, g=17, levels.mean=TRUE, digits=6, onlycuts=FALSE)
+
+git branch [Binning lichen data (not final)]
