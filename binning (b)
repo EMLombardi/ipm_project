@@ -5,5 +5,11 @@ windows()
 brks=hist(c(t0))#This uses the hist function to create the bins. Simple. There are 17 bins here. Problem=equal sized bins.
 bpts=brks$breaks
 vec.bin=cut2(t0, bpts, g=17, levels.mean=TRUE, digits=6, onlycuts=FALSE)
+vec.bin=brks#This is the key line for now. Note that the first break is at .5 rather than .4
 
-git branch [Binning lichen data (not final)]
+brk1=.4
+descend=sort(bpts, descending=TRUE)
+vec.bin=append(descend, brk1)
+vec.bin=sort(vec.bin, descending=FALSE)
+print(vec.bin)##just checking
+
