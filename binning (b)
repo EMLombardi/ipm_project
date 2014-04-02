@@ -1,15 +1,8 @@
-bin1=subset(t0, t0<.4)#defines bin1 (recruit class)
-recruit.med<-median(bin1)
-t0<-subset(t0, t0>.4) #re-defines t0 to exclude recruit class
-windows()
-brks=hist(c(t0))#This uses the hist function to create the bins. Simple. There are 17 bins here. Problem=equal sized bins.
-bpts=brks$breaks
-vec.bin=cut2(t0, bpts, g=17, levels.mean=TRUE, digits=6, onlycuts=FALSE)
-vec.bin=brks#This is the key line for now. Note that the first break is at .5 rather than .4
+brk1<-.4 #define first break for recruit class
+bpts<-hist(t0, breaks="FD")#this bins according to the Freedman-Diaconis rule. 
+seq<-c(bpts@breaks0
+sort1<-sort(seq, decreasing=TRUE)
+allbrks<-append(sort1, brk1)
+vec.bin<-sort(allbrks, decreasing=FALSE)
 
-brk1=.4
-descend=sort(bpts, descending=TRUE)
-vec.bin=append(descend, brk1)
-vec.bin=sort(vec.bin, descending=FALSE)
-print(vec.bin)##just checking
-
+vec.bin#just checking
